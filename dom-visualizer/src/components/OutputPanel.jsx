@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import '../App.css'
+import '../index.css'
 
 export default function OutputPanel({ result }) {
   return (
     <div>
       <h2>Output</h2>
-      <pre>{result}</pre>
+      <pre>{result ? JSON.stringify(result, null, 2) : "Data kosong"}</pre>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import "./InputPanel.css";
+import { useNavigate } from 'react-router-dom';
+import '../index.css'
 
 export default function InputPanel({ onSubmit }) {
   const [url, setUrl] = useState("");
@@ -9,8 +10,12 @@ export default function InputPanel({ onSubmit }) {
   const [limitType, setLimitType] = useState("all");
   const [limitValue, setLimitValue] = useState("");
   const [inputType, setInputType] = useState("url");
+  const navigate = useNavigate();
+
 
   const handleFileChange = (e) => {
+    e.preventDefault(); // Mencegah reload halaman
+
     const file = e.target.files[0];
     if (!file) return;
 
@@ -29,6 +34,9 @@ export default function InputPanel({ onSubmit }) {
       selector,
       limit: limitType === "all" ? "all" : limitValue,
     });
+    
+    navigate('/visualization');
+
   };
 
   return (
