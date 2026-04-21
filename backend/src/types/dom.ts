@@ -1,14 +1,6 @@
 export type TraversalAction = "visit" | "match" | "skip";
 export type TraversalLog = ReadonlyArray<TraversalLogEntry>;
 
-export type ScrapeResult = 
-    | { success: true; html: string}
-    | { success: false; error: string};
-
-export type ParseResult =
-    | { success: true; domTree: DOMNode; maxDepth: number }
-    | { success: false; error: string};
-
 export interface TraversalLogEntry {
   readonly step: number;     // urutan langkah, dimulai dari 1
   readonly nodeId: string;   // path: "html/body/div[1]/p[0]"
@@ -16,6 +8,11 @@ export interface TraversalLogEntry {
   readonly action: TraversalAction;
   readonly depth: number;    // kedalaman node di tree, root = 0
 };
+
+export interface DOMTree {
+  domTree: DOMNode;
+  maxDepth: number;
+}
 
 export interface DOMNode {
   readonly id: string; 
