@@ -12,15 +12,10 @@ export type TraversalLog = ReadonlyArray<TraversalLogEntry>;
 
 export type DOMNode = {
   readonly id: string;
-
   readonly tag: string;
-
   readonly attributes: Readonly<Record<string, string>>;
-
   readonly children: ReadonlyArray<DOMNode>;
-
   readonly depth: number;
-
   readonly innerText?: string;
 };
 
