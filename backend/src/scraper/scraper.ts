@@ -1,4 +1,4 @@
-import { ScraperError } from "../types/error.js";
+import { ScraperError } from "../types/constants.js";
 
 const SCRAPER_HEADERS = {
     "User-Agent":
@@ -19,24 +19,17 @@ function isValidURL(url : string): boolean {
 export async function scrapeURL(url: string): Promise <string> 
 {
     if (!isValidURL(url)) throw new Error(ScraperError.INVALID_URL);
-    
-    let response : Response;
-
     try {
-        response = await fetch(url, {
+        const response = await fetch(url, {
             headers: SCRAPER_HEADERS,
             signal: AbortSignal.timeout(10000),
         });
+        if (!response.ok) throw new Error(ScraperError.HTTP_ERROR(response.status));
+        const html = await response.text();
+        return html;
     } catch (err) {
-        if (err instanceof DOMException && err.name === "TimeoutError"){
-            throw new Error(ScraperError.TIMEOUT);
-        }
-        throw new Error(ScraperError.UNREACHABLE);
-    }
-
-    if (!response.ok) throw new Error(ScraperError.HTTP_ERROR(response.status));
-            
-    const html = await response.text();
-
-    return html;
+        if (err instanceof DOMException && err.name === "TimeoutError") throw new Error(ScraperError.TIMEOUT);
+        else if (err instanceof Error) throw new Error(ScraperError.NETWORK_ERROR(err.name));
+        else throw new Error(ScraperError.UNREACHABLE);
+    }       
 }
