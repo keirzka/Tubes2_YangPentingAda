@@ -8,7 +8,7 @@ export const ScraperError = {
 
 export const ParserError = {
     EMPTY_HTML: "HTML kosong.",
-    PARSE_FAILED: "Parsing HTML tidak berhasil.",
+    PARSE_FAILED: "Parsing HTML gagal.",
 } as const;
 
 export const RequestError = {
