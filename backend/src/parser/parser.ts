@@ -1,6 +1,7 @@
 import * as parse5 from "parse5";
 import type { DOMNode, DOMTree } from "../types/dom.js";
 import { ParserError } from "../types/constants.js";
+import { getMaxDepth } from "../utils/utils.js";
 
 type Node = parse5.DefaultTreeAdapterMap['node'];
 type Element = parse5.DefaultTreeAdapterMap['element'];
@@ -84,5 +85,5 @@ export function parseHTML(html: string): DOMTree {
 
     const maxDepth = getMaxDepth(root);
 
-    return { domTree: root, maxDepth};
+    return { domTree: root, maxDepth };
 }
