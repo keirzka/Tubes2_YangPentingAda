@@ -69,5 +69,20 @@ function convertNode(
 
 export function parseHTML(html: string): DOMTree {
     if (html.trim() === "") throw new Error(ParserError.EMPTY_HTML);
-    throw new Error("Not implemented")
+    
+    const document = parse5.parse(html);
+
+    const htmlNode = document.childNodes.find(
+        node => node.nodeName === 'html'
+    );
+
+    if (htmlNode === undefined) throw new Error(ParserError.PARSE_FAILED);
+
+    const root = convertNode(htmlNode, 0, '', 0);
+
+    if (root === null) throw new Error(ParserError.PARSE_FAILED);
+
+    const maxDepth = getMaxDepth(root);
+
+    return { domTree: root, maxDepth};
 }
