@@ -10,7 +10,7 @@ const SCRAPER_HEADERS = {
 function isValidURL(url : string): boolean {
     try {
         const parsed = new URL(url); // cek url
-        return parsed.protocol === "http:" || parsed.protocol === "https:";
+        return parsed.protocol === 'http:' || parsed.protocol === 'https:';
     } catch {
         return false;
     }
@@ -28,7 +28,7 @@ export async function scrapeURL(url: string): Promise <string>
         const html = await response.text();
         return html;
     } catch (err) {
-        if (err instanceof DOMException && err.name === "TimeoutError") throw new Error(ScraperError.TIMEOUT);
+        if (err instanceof DOMException && err.name === 'TimeoutError') throw new Error(ScraperError.TIMEOUT);
         else if (err instanceof Error) throw new Error(ScraperError.NETWORK_ERROR(err.name));
         else throw new Error(ScraperError.UNREACHABLE);
     }       
