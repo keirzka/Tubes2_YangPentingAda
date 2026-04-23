@@ -12,9 +12,8 @@ function convertNode(
     depth: number,
     parentPath: string,
     index: number
-): DOMNode | null
-{
-    if (node.nodeName === '#text' || node.nodeName === '#comment'){
+): DOMNode | null {
+    if (node.nodeName === '#text' || node.nodeName === '#comment') {
         return null;
     }
 
@@ -23,14 +22,14 @@ function convertNode(
     const element = node as Element;
     const tag = element.nodeName.toLowerCase();
 
-    const id = parentPath === '' 
-        ? tag 
-        : UNIQUE_TAGS.has(tag) 
+    const id = parentPath === ''
+        ? tag
+        : UNIQUE_TAGS.has(tag)
             ? `${parentPath}/${tag}`
             : `${parentPath}/${tag}[${index}]`;
 
     const attributes: Record<string, string> = {};
-    for (const attr of element.attrs){
+    for (const attr of element.attrs) {
         attributes[attr.name] = attr.value;
     }
 
@@ -53,7 +52,7 @@ function convertNode(
 
         const childNode = convertNode(child, depth + 1, id, childIndex);
         if (childNode !== null) {
-        children.push(childNode);
+            children.push(childNode);
         }
     }
 
@@ -70,7 +69,7 @@ function convertNode(
 
 export function parseHTML(html: string): DOMTree {
     if (html.trim() === "") throw new Error(ParserError.EMPTY_HTML);
-    
+
     const document = parse5.parse(html);
 
     const htmlNode = document.childNodes.find(
