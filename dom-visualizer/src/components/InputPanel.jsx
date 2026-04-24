@@ -11,7 +11,7 @@ export default function InputPanel({ onSubmit }) {
   const [limitValue, setLimitValue] = useState("");
   const [inputType, setInputType] = useState("url");
   const navigate = useNavigate();
-
+  const [error, setError] = useState("");
 
   const handleFileChange = (e) => {
     e.preventDefault(); // Mencegah reload halaman
@@ -26,7 +26,57 @@ export default function InputPanel({ onSubmit }) {
     reader.readAsText(file);
   };
 
+  // Error Detection
+  const validate = () => {
+    // reset error
+    setError("");
+
+    // Validasi URL
+    if (inputType === "url") {
+      if (!url.trim()) {
+        setError("URL tidak boleh kosong");
+        return false;
+      }
+
+      try {
+        new URL(url);
+      } catch {
+        setError("Format URL tidak valid");
+        return false;
+      }
+    }
+
+    // Validasi File HTML
+    if (inputType === "file") {
+      if (!html.trim()) {
+        setError("File HTML belum diupload");
+        return false;
+      }
+    }
+
+    // Validasi Selector
+    if (!selector.trim()) {
+      setError("CSS Selector tidak boleh kosong");
+      return false;
+    }
+
+    // Validasi Nilai Limit
+    if (limitType === "top") {
+      const n = parseInt(limitValue);
+
+      if (isNaN(n) || n <= 0) {
+        setError("Limit harus angka > 0");
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  // Submit untuk Proses Pencarian
   const handleSubmit = () => {
+    if(!validate()) return;
+
     onSubmit({
       url,
       html,
@@ -43,6 +93,7 @@ export default function InputPanel({ onSubmit }) {
     <div className="container">
       <h2 className="title">Input Data</h2>
 
+    {/* Jenis Input */}
     <div className="group">
         <label>Pilihan Jenis Input</label>
         <select
@@ -55,7 +106,7 @@ export default function InputPanel({ onSubmit }) {
         </select>
     </div>
         
-      {/* URL */}
+      {/* Input URL */}
       {inputType === "url" && (
         <div className="group">
             <label>URL Website</label>
@@ -69,7 +120,7 @@ export default function InputPanel({ onSubmit }) {
         </div>
       )}
 
-      {/* FILE */}
+      {/* Input File HTML */}
       {inputType === "file" && (
         <div className="group">
             <label>Upload HTML File</label>
@@ -82,7 +133,7 @@ export default function InputPanel({ onSubmit }) {
         </div>
       )}
 
-      {/* METHOD */}
+      {/* Pilihan Algoritma */}
       <div className="group">
         <label>Pilihan Algoritma</label>
         <select
@@ -95,7 +146,7 @@ export default function InputPanel({ onSubmit }) {
         </select>
       </div>
 
-      {/* SELECTOR */}
+      {/* Input Selector */}
       <div className="group">
         <label>CSS Selector</label>
         <input
@@ -107,7 +158,7 @@ export default function InputPanel({ onSubmit }) {
         />
       </div>
 
-      {/* LIMIT */}
+      {/* Pilihan Nilai Limit */}
       <div className="group">
         <label>Jumlah Hasil</label>
         <select
@@ -130,6 +181,14 @@ export default function InputPanel({ onSubmit }) {
         )}
       </div>
 
+      {/* Error handling */}
+      {error && (
+        <div className="error-box">
+          {error}
+        </div>
+      )}
+
+      {/* Proses Pencarian */}
       <button className="button" onClick={handleSubmit}>
         Proses
       </button>

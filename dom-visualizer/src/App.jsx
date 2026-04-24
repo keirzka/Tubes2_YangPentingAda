@@ -15,8 +15,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="h-screen w-full flex flex-col bg-[#fff5f9]">
-        <h1 className="text-center font-bold" style={{ color: 'rgb(112, 26, 117)' }}>
+      <div>
+        <h1 className="font-bold" style={{ color: 'rgb(112, 26, 117)', textAlign: 'center' }}>
           DOM Visualizer
           </h1>
 
