@@ -1,3 +1,5 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 import express, { type Request, type Response, type NextFunction } from "express";
 import cors from "cors";
 import { scrapeURL } from "./scraper/scraper.js";
