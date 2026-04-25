@@ -1,10 +1,10 @@
-import type { DOMNode, SearchResponse, MatchFn } from "./types/dom";
-import { Stack } from "./utils/stack";
+import type { DOMNode, SearchResponse, MatchFn } from "../types/dom.js";
+import { Stack } from "../utils/stack.js";
 import {
   createSearchMatcher,
   runTraversal,
   type Frontier,
-} from "./searchCore";
+} from "../algorithm/searchCore.js";
 
 export function dfsSearch(
   root: DOMNode,

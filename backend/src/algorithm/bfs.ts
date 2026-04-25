@@ -1,10 +1,10 @@
-import type { DOMNode, SearchResponse, MatchFn } from "./types/dom";
-import { Queue } from "./utils/queue";
+import type { DOMNode, SearchResponse, MatchFn } from "../types/dom.js";
+import { Queue } from "../utils/queue.js";
 import {
   createSearchMatcher,
   runTraversal,
   type Frontier,
-} from "./searchCore";
+} from "../algorithm/searchCore.js";
 
 export function bfsSearch(
   root: DOMNode,
