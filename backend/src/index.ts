@@ -4,6 +4,7 @@ import { scrapeURL } from "./scraper/scraper.js";
 import { parseHTML } from "./parser/parser.js";
 import { bfsSearch } from "./algorithm/bfs.js";
 import { dfsSearch } from "./algorithm/dfs.js";
+import { lcaQuery } from "./algorithm/lca.js";
 import { SelectorError } from "./utils/selectorError.js";
 import type { DOMNode } from "./types/dom.js";
 import { error } from "node:console";
@@ -84,6 +85,59 @@ app.post("/api/search", (req: Request, res: Response, next: NextFunction) => {
         res.json(result);
     } catch (err) {
         next(err);
+    }
+});
+
+// POST /api/lca
+app.post("/api/lca", (req: Request, res: Response) => {
+    try {
+        const { domTree, nodeIdA, nodeIdB } = req.body as {
+            domTree?: unknown;
+            nodeIdA?: unknown;
+            nodeIdB?: unknown;
+        };
+
+        if (
+            typeof domTree !== "object" ||
+            domTree === null ||
+            typeof (domTree as Record<string, unknown>).id !== "string" ||
+            typeof (domTree as Record<string, unknown>).tag !== "string" ||
+            !Array.isArray((domTree as Record<string, unknown>).children)
+        ) {
+            res.status(400).json({
+                success: false,
+                error: 'Field "domTree" must be a valid DOM node.',
+            });
+            return;
+        }
+
+        if (typeof nodeIdA !== "string" || nodeIdA.trim() === "") {
+            res.status(400).json({
+                success: false,
+                error: 'Field "nodeIdA" must be a non-empty string.',
+            });
+            return;
+        }
+
+        if (typeof nodeIdB !== "string" || nodeIdB.trim() === "") {
+            res.status(400).json({
+                success: false,
+                error: 'Field "nodeIdB" must be a non-empty string.',
+            });
+            return;
+        }
+
+        const result = lcaQuery(domTree as DOMNode, nodeIdA, nodeIdB);
+
+        res.json({
+            success: true,
+            ...result,
+        });
+    } catch (err) {
+        res.status(400).json({
+            success: false,
+            error: err instanceof Error ? err.message : "Unknown error",
+        });
     }
 });
 
