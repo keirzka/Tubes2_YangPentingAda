@@ -51,18 +51,10 @@ export function createMatcher(selector: string): CompiledMatcher {
 
 // Element check
 
-/**
- * Node dianggap element kalau tag-nya tidak berawal '#'
- * (konvensi umum: text node = "#text", comment = "#comment", document = "#document").
- */
 function isElement(node: DOMNode): boolean {
   return !node.tag.startsWith("#");
 }
 
-/**
- * Hitung posisi node di antara element-siblings-nya. Return null
- * kalau node tidak punya parent (root) atau tidak ditemukan.
- */
 function elementSiblingInfo(
   node: DOMNode,
   getParent: ParentLookup
@@ -413,8 +405,7 @@ function matchCompound(
 
   if (sel.pseudos.length > 0) {
     const info = elementSiblingInfo(node, getParent);
-    // Root tidak punya parent. Secara semantik CSS, root element
-    // adalah first-child & last-child dari document.
+    // Root tidak punya parent
     if (info !== null) {
       for (const p of sel.pseudos) {
         if (p === "first-child" && info.elementIndex !== 0) return false;
@@ -431,10 +422,9 @@ function matchCompound(
   return true;
 }
 
-/**
- * Evaluasi complex selector terhadap node.
- * Strategi right-to-left.
- */
+
+//Evaluasi complex selector terhadap node right-to-left
+
 function matchesComplex(
   node: DOMNode,
   complex: ComplexSelector,

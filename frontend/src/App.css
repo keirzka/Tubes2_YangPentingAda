@@ -1,31 +1,30 @@
-/* App.css */
+
 .app-container {
-  /* Memaksa tinggi pas 100% layar laptop */
   height: 100vh; 
   width: 100vw;
   display: flex;
   flex-direction: column;
-  background-color: #fbd5e4; /* Pink dasar sesuai desainmu */
-  overflow: hidden; /* Kunci agar tidak ada scrollbar di pinggir */
+  background-color: #fbd5e4; 
+  overflow: hidden;
 }
 
 .main-layout {
   display: flex;
-  flex: 1; /* Mengambil sisa ruang di bawah judul */
+  flex: 1; 
   padding: 20px;
   gap: 20px;
-  overflow: hidden; /* Penting agar konten tidak meluber */
+  overflow: hidden; 
 }
 
 .sidebar {
-  width: 450px; /* Lebar panel input tetap */
+  width: 450px; 
   height: 100%;
-  overflow-y: auto; /* Hanya panel ini yang boleh scroll jika form panjang */
+  overflow-y: auto; 
   padding-right: 10px;
 }
 
 .visualization-area {
-  flex: 1; /* Mengambil sisa ruang landscape di kanan */
+  flex: 1; 
   height: 100%;
   background: white;
   border-radius: 24px;

@@ -66,7 +66,80 @@ sudo docker-compose up --build
 
 ---
 
-## 4. Author
+## 4. Struktur Proyek
+
+```text
+.
+├── backend
+│   ├── dist
+│   │   ├── algorithm
+│   │   ├── parser
+│   │   ├── scraper
+│   │   ├── types
+│   │   └── utils
+│   ├── src
+│   │   ├── algorithm
+│   │   │   ├── bfs.ts
+│   │   │   ├── dfs.ts
+│   │   │   ├── searchCore.ts
+│   │   │   └── selector.ts
+│   │   ├── app.ts
+│   │   ├── index.ts
+│   │   ├── parser/parser.ts
+│   │   ├── scraper/scraper.ts
+│   │   ├── types
+│   │   │   ├── constants.ts
+│   │   │   └── dom.ts
+│   │   └── utils
+│   │       ├── logger.ts
+│   │       ├── path.ts
+│   │       ├── queue.ts
+│   │       ├── selectorError.ts
+│   │       ├── stack.ts
+│   │       └── utils.ts
+│   ├── package.json
+│   ├── package-lock.json
+│   └── tsconfig.json
+├── docs
+│   └── API.md
+├── frontend
+│   ├── src
+│   │   ├── assets
+│   │   │   ├── hero.png
+│   │   │   ├── react.svg
+│   │   │   └── vite.svg
+│   │   ├── components
+│   │   │   ├── DOMTreeViewer.jsx
+│   │   │   ├── dummyData.js
+│   │   │   ├── InputPanel.jsx
+│   │   │   ├── LogRow.jsx
+│   │   │   └── OutputPanel.jsx
+│   │   ├── services/api.js
+│   │   ├── styles/main.css
+│   │   ├── utils/convertDomToTree.js
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── README.md
+│   └── vite.config.js
+├── docker-compose.yml
+├── project_structure.md
+└── README.md
+```
+
+Catatan:
+
+- Folder `backend/dist` berisi hasil build TypeScript (auto-generated).
+- Struktur detail lengkap dapat dilihat di `project_structure.md`.
+
+---
+
+## 5. Author
 
 **Kelompok [Nama Kelompok]**
 

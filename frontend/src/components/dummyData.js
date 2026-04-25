@@ -1,7 +1,3 @@
-// src/dummyData.js
-// Bentuk data ini SAMA PERSIS dengan response backend sungguhan
-// Jadi nanti waktu disambungkan ke backend, tidak perlu ubah apapun
-
 // Ini hasil dari /api/scrape
 export const dummyScrape = {
   success: true,

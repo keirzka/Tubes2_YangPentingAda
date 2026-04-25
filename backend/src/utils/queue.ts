@@ -1,9 +1,8 @@
 // Queue<T> 
-// FIFO data structure dengan linked list
 
 class QueueNode<T> {
   next: QueueNode<T> | null = null;
-  constructor(public readonly value: T) {}
+  constructor(public readonly value: T) { }
 }
 
 export class Queue<T> {

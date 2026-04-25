@@ -1,9 +1,8 @@
 // Stack<T>
-// LIFO data structure dengan linked list
 
 class StackNode<T> {
   next: StackNode<T> | null = null;
-  constructor(public readonly value: T) {}
+  constructor(public readonly value: T) { }
 }
 
 export class Stack<T> {
