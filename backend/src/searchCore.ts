@@ -1,7 +1,7 @@
 import { performance } from "node:perf_hooks";
-import type { DOMNode, SearchResponse, MatchFn } from "./types/dom";
-import { createMatcher, type CompiledMatcher, type ParentLookup } from "./selector";
-import { TraversalLogger } from "./utils/logger";
+import type { DOMNode, SearchResponse, MatchFn } from "./types/dom.js";
+import { createMatcher, type CompiledMatcher, type ParentLookup } from "./selector.js";
+import { TraversalLogger } from "./utils/logger.js";
 
 export type Frontier<T> = {
   add(value: T): void;

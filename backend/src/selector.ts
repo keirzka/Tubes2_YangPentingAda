@@ -1,5 +1,5 @@
-import type { DOMNode } from "./types/dom";
-import { SelectorError } from "./utils/selectorError";
+import type { DOMNode } from "./types/dom.js";
+import { SelectorError } from "./utils/selectorError.js";
 
 // Public types
 export type ParentLookup = (node: DOMNode) => DOMNode | undefined;

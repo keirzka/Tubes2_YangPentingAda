@@ -31,3 +31,5 @@ export interface SearchResponse {
     nodesVisited: number;
   }>;
 };
+
+export type MatchFn = (node: DOMNode) => boolean;

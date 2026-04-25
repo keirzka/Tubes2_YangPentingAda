@@ -1,4 +1,4 @@
-import { DOMNode, TraversalAction, TraversalLogEntry } from "../types/dom";
+import type { DOMNode, TraversalAction, TraversalLogEntry } from "../types/dom.js";
 
 // TraversalLogger — encapsulate state logging supaya tidak
 // mengotori main loop BFS/DFS dengan variabel `step` dan
