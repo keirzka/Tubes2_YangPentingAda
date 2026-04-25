@@ -36,21 +36,27 @@ _(Catatan: Tautan ini dinonaktifkan sementara waktu untuk menghemat kuota cloud.
 
 Jika tautan Azure sedang mati dan ingin mengujinya secara lokal:
 
-1. Buka terminal dan masuk ke folder proyek utama.
+1. Lakukan git clone atau download repository ini
 
-2. Jalankan perintah instalasi dependensi:
+2. Periksa file OutputPanel.jsx pada direktori frontend/src/components/OutputPanel.jsx
+
+3. Pada line 110 dan 130, ubah "http://70.153.137.94:3000/api/scrape" menjadi "http://localhost:3000/api/scrape" (i know, this isn't ideal).
+
+4. Buka terminal dan masuk ke folder proyek utama.
+
+5. Jalankan perintah instalasi dependensi:
 
    ```bash
    npm install
    ```
 
-3. Nyalakan aplikasi (Frontend & Backend):
+6. Nyalakan aplikasi (Frontend & Backend):
 
    ```bash
    npm run dev
    ```
 
-4. Buka `http://localhost:5173` di peramban web.
+7. Buka `http://localhost:5173` di web.
 
 ### Menjalankan Secara Lokal (Docker)
 
