@@ -108,6 +108,28 @@ select.input option {
   transform: scale(0.96);
 }
 
+.miniButton{
+  margin-top: 12px;
+  margin-right: 12px;
+  padding: 14px;
+  border-radius: 14px;
+  border: #5b21b6;
+  background: #7c50c1;
+  color: white;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(244, 114, 182, 0.3);
+}
+
+.miniButton:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.05);
+  box-shadow: 0 8px 25px rgba(156, 80, 120, 0.5);
+}
+
 .file-input::file-selector-button {
   margin-right: 15px;
   padding: 8px 16px;

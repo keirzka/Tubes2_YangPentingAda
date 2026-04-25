@@ -5,7 +5,7 @@
 // Ini hasil dari /api/scrape
 export const dummyScrape = {
   success: true,
-  maxDepth: 4,
+  maxDepth: 1,
   domTree: {
     id: "html",
     tag: "html",
@@ -93,22 +93,6 @@ export const dummyScrape = {
 // hasilnya: dua elemen <p> ditemukan
 export const dummySearch = {
   results: [
-    {
-      id: "html/body/div[0]/p[0]",
-      tag: "p",
-      attributes: { class: "teks" },
-      depth: 3,
-      innerText: "Ini paragraf pertama.",
-      children: [],
-    },
-    {
-      id: "html/body/div[0]/p[1]",
-      tag: "p",
-      attributes: { class: "teks" },
-      depth: 3,
-      innerText: "Ini paragraf kedua.",
-      children: [],
-    },
   ],
   stats: {
     timeMs: 12,
@@ -122,8 +106,8 @@ export const dummySearch = {
     { step: 5,  nodeId: "html/body/div[0]",       tag: "div",   action: "visit", depth: 2 },
     { step: 6,  nodeId: "html/body/div[0]/h1",    tag: "h1",    action: "skip",  depth: 3 },
     { step: 7,  nodeId: "html/body/div[0]/p[0]",  tag: "p",     action: "match", depth: 3 },
-    { step: 8,  nodeId: "html/body/div[0]/p[1]",  tag: "p",     action: "match", depth: 3 },
-    { step: 9,  nodeId: "html/body/div[1]",       tag: "div",   action: "visit", depth: 2 },
+    { step: 8,  nodeId: "html/body/div[0]/p[1]",  tag: "p",     action: "skip", depth: 3 },
+    { step: 9,  nodeId: "html/body/div[1]",       tag: "div",   action: "skip", depth: 2 },
     { step: 10, nodeId: "html/body/div[1]/span",  tag: "span",  action: "skip",  depth: 3 },
   ],
 };

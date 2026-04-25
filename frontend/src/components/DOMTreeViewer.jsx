@@ -74,7 +74,6 @@ export default function DOMTreeViewer({ data }) {
         {/* Label tag */}
         <text textAnchor="middle" dy="0.35em" fontSize={11} fill="black" stroke="none" fontWeight="600">
           &lt;{nodeDatum.name}&gt;
-          {nodeDatum.attributes?.class ? ` .${nodeDatum.attributes.class}` : ""}
         </text>
       </g>
     );
