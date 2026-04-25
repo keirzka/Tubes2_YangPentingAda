@@ -18,21 +18,28 @@ export default function OutputPanel({ result }) {
   const [error, setError] = useState(null);
   const [tabAktif, setTabAktif] = useState("pohon");
 
+  // State Animasi
+  const [currentStep, setCurrentStep] = useState(-1);
+  const [onAnimation, setOnAnimation] = useState(false);
+  const [kecepatan, setKecepatan] = useState(500);
+  const intervalRef = useRef(null);
+
+  const logAsli = hasilCari?.traversalLog || []
+  const currentLog = logAsli.slice(0, currentStep + 1);
+
   // Set berisi semua id node yang MATCH
   const matchIds = new Set();
-  if(hasilCari && hasilCari.results){
-      for (const node of hasilCari.results) {
-        matchIds.add(node.id);
-      }
-  }
-
-  // Set berisi semua id node yang VISITED (dari log)
+    // Set berisi semua id node yang VISITED (dari log)
   const visitedIds = new Set();
-  if(hasilCari && hasilCari.traversalLog){
-      for (const node of hasilCari.traversalLog) {
-        visitedIds.add(node.nodeId);
-      }
-  }
+
+  currentLog.forEach((entry) => {
+    if(entry.action === "match") {
+      matchIds.add(entry.nodeId);
+    }
+    else if(entry.action === "visit"){
+      visitedIds.add(entry.nodeId);
+    }
+  });
 
   const treeData = domTree ? convertDomToTree(domTree, matchIds, visitedIds) : null;
 
@@ -51,8 +58,48 @@ export default function OutputPanel({ result }) {
       a.click();
   };
 
+  // Animasi Controller
+  const totalStep = hasilCari?.traversalLog?.length ?? 0;
+
+  // 1. Mulai animasi
+  function startAnimation() {
+    if(!hasilCari?.traversalLog) return;
+
+    setOnAnimation(true);
+
+    let step = 0;
+    setCurrentStep(step);
+
+    intervalRef.current = setInterval(() => {
+      setCurrentStep(step);
+      step++;
+
+      if(step >= totalStep){
+        clearInterval(intervalRef.current);
+        setOnAnimation(false);
+      }
+    }, kecepatan);
+  }
+
+  // 2. Stop animasi
+  function stopAnimation(){
+    clearInterval(intervalRef.current);
+    setOnAnimation(false);
+  }
+
+  // 3. Reset animasi
+  function resetAnimation(){
+    clearInterval(intervalRef.current);
+    setOnAnimation(false);
+    setCurrentStep(totalStep - 1);
+  }
+
   useEffect(() => {
     if (!result) return;
+
+    if(hasilCari?.traversalLog){
+      setCurrentStep(hasilCari.traversalLog.length - 1);
+    }
 
     const jalankan = async () => {
       setLoading(true);
@@ -92,11 +139,13 @@ export default function OutputPanel({ result }) {
         // });
         // const dataCari = await responCari.json();
         // setHasilCari(dataCari);
+        // setCurrentStep(dataCari.traversalLog.length - 1);
 
         // Untuk testing dengan file dummy
         setDomTree(dummyScrape.domTree);
         setMaxDepth(dummyScrape.maxDepth);
         setHasilCari(dummySearch);
+        setCurrentStep(dummySearch.traversalLog.length - 1);
 
       } catch (err) {
         setError("Tidak bisa terhubung ke backend.");
@@ -129,6 +178,7 @@ export default function OutputPanel({ result }) {
       </div>
   );
 
+  // 
   if(!hasilCari) return null;
   
   return (    
@@ -171,12 +221,35 @@ export default function OutputPanel({ result }) {
       </div>
 
       {/* Konten tab */}
+      
       {tabAktif === "pohon" && treeData && (
-        <DOMTreeViewer data={treeData}/>
+        <div>
+          <div>
+            {!onAnimation ? (
+              <button className="miniButton" onClick={startAnimation}>
+                Start
+              </button>
+            )  : (
+              <button className="miniButton" onClick={stopAnimation}>
+                Stop
+              </button>
+            )}
+
+            <button className="miniButton" onClick={resetAnimation}>
+              Reset
+            </button>
+
+            <span>
+              Langkah {Math.max(0, currentStep + 1)} / {totalStep}
+            </span>
+          </div>
+          <DOMTreeViewer data={treeData}/>
+
+        </div>
       )}
 
       {/* Hasil Pencarian Node */}
-      {hasilCari && hasilCari.results.length > 0 && (
+      {hasilCari && hasilCari.results.length > 0 ? (
         <div className="result">
           <label>Elemen yang cocok : ({hasilCari.results.length} hasil)</label>
 
@@ -212,7 +285,11 @@ export default function OutputPanel({ result }) {
             </div>
           ))}
         </div>
-      )}
+      ) : 
+        <div className="result">
+          <label>Tidak ada elemen yang cocok</label>
+        </div>
+      }
 
       {/* Keterangan Log Pencarian */}
       <div className="result">
