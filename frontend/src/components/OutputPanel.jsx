@@ -59,47 +59,52 @@ export default function OutputPanel({ result }) {
       setError(null);
 
       try { //Pemanggilan API Backend
-        // // PANGGIL ENDPOINT 1: scrape
-        // const responScrape = await fetch("http://localhost:XXXX/api/scrape", {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: JSON.stringify({
-        //     inputType: result.url ? "url" : "html",
-        //     input: result.url || result.html,
-        //   }),
-        // });
-        // const dataScrape = await responScrape.json();
+        // PANGGIL ENDPOINT 1: scrape
+        const responScrape = await fetch("http://localhost:3000/api/scrape", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            inputType: result.url ? "url" : "html",
+            input: result.url || result.html,
+          }),
+        });
+        const dataScrape = await responScrape.json();
 
-        // if (!dataScrape.success) {
-        //   setError("Gagal scraping: " + dataScrape.error);
-        //   setLoading(false);
-        //   return;
-        // }
+        if (!responScrape.ok) {
+          setError("Gagal scraping: " + (dataScrape.error || responScrape.statusText));
+          setLoading(false);
+          return;
+        }
 
-        // setDomTree(dataScrape.domTree);
-        // setMaxDepth(dataScrape.maxDepth);
+        setDomTree(dataScrape.domTree);
+        setMaxDepth(dataScrape.maxDepth);
 
-        // // PANGGIL ENDPOINT 2: search
-        // const responCari = await fetch("http://localhost:XXXX/api/search", {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: JSON.stringify({
-        //     domTree: dataScrape.domTree,
-        //     algorithm: result.method.toLowerCase(),
-        //     selector: result.selector,
-        //     limit: result.limit === "all" ? "all" : parseInt(result.limit),
-        //   }),
-        // });
-        // const dataCari = await responCari.json();
-        // setHasilCari(dataCari);
+        // PANGGIL ENDPOINT 2: search
+        const responCari = await fetch("http://localhost:3000/api/search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            domTree: dataScrape.domTree,
+            algorithm: result.method.toLowerCase(),
+            selector: result.selector,
+            limit: result.limit === "all" ? "all" : parseInt(result.limit),
+          }),
+        });
+        const dataCari = await responCari.json();
+        
+        if (!responCari.ok){
+          throw new Error("Gagal mencari: " + (dataCari.error || responCari.statusText));
+        }
+        
+        setHasilCari(dataCari);
 
-        // Untuk testing dengan file dummy
-        setDomTree(dummyScrape.domTree);
-        setMaxDepth(dummyScrape.maxDepth);
-        setHasilCari(dummySearch);
+        // // Untuk testing dengan file dummy
+        // setDomTree(dummyScrape.domTree);
+        // setMaxDepth(dummyScrape.maxDepth);
+        // setHasilCari(dummySearch);
 
       } catch (err) {
-        setError("Tidak bisa terhubung ke backend.");
+        setError(err.message || "Tidak bisa terhubung ke backend.");
       }
 
       setLoading(false);
