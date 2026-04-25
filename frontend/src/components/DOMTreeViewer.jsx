@@ -28,7 +28,7 @@ export default function DOMTreeViewer({ data }) {
 
     // Hitung lebar kotak berdasarkan panjang teks
     const label = nodeDatum.name + (nodeDatum.attributes?.class ? `.${nodeDatum.attributes.class}` : "");
-    const boxW = Math.max(100, label.length * 8 + 30);
+    const boxW = Math.max(100, (nodeDatum.name.length + 2) * 8 + 30);
     const isMatch = nodeDatum.attributes?.match;
     const textColor = nodeDatum.attributes?.match || nodeDatum.attributes?.visited
       ? "white"
