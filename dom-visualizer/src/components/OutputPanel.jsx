@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { convertDomToTree } from "../utils/convertDomToTree";
+import { useRef } from 'react';
 import DOMTreeViewer from "./DOMTreeViewer";
 import LogRow from "./LogRow";
-import '../index.css'
+import '../index.css';
 
 // Untuk testing aja
 import { dummyScrape, dummySearch } from "./dummyData"; 

@@ -34,29 +34,29 @@ export default function InputPanel({ onSubmit }) {
     // Validasi URL
     if (inputType === "url") {
       if (!url.trim()) {
-        setError("URL tidak boleh kosong");
+        setError("URL tidak boleh kosong!");
         return false;
       }
 
       try {
         new URL(url);
       } catch {
-        setError("Format URL tidak valid");
+        setError("Format URL tidak valid!");
         return false;
       }
     }
 
     // Validasi File HTML
-    if (inputType === "file") {
+    if (inputType === "html") {
       if (!html.trim()) {
-        setError("File HTML belum diupload");
+        setError("Teks HTML tidak boleh kosong!");
         return false;
       }
     }
 
     // Validasi Selector
     if (!selector.trim()) {
-      setError("CSS Selector tidak boleh kosong");
+      setError("CSS Selector tidak boleh kosong!");
       return false;
     }
 
@@ -65,7 +65,7 @@ export default function InputPanel({ onSubmit }) {
       const n = parseInt(limitValue);
 
       if (isNaN(n) || n <= 0) {
-        setError("Limit harus angka > 0");
+        setError("Limit harus angka > 0!");
         return false;
       }
     }
@@ -102,7 +102,7 @@ export default function InputPanel({ onSubmit }) {
             onChange={(e) => setInputType(e.target.value)}
         >
             <option value="url">URL</option>
-            <option value="file">File HTML</option>
+            <option value="html">HTML</option>
         </select>
     </div>
         
@@ -120,15 +120,17 @@ export default function InputPanel({ onSubmit }) {
         </div>
       )}
 
-      {/* Input File HTML */}
-      {inputType === "file" && (
+      {/* Input HTML */}
+      {inputType === "html" && (
         <div className="group">
-            <label>Upload HTML File</label>
-            <input
-            className="file-input"
-            type="file"
-            accept=".html"
-            onChange={handleFileChange}
+            <label> HTML </label>
+            <textarea
+            className="input"
+            type="text"
+            placeholder={"<html>\n......\n</html>"}
+            value={html}
+            onChange={(e) => setHtml(e.target.value)}
+            rows={10}
             />
         </div>
       )}
@@ -152,7 +154,7 @@ export default function InputPanel({ onSubmit }) {
         <input
           className="input"
           type="text"
-          placeholder="Example: div, .class, #id"
+          placeholder="Contoh: div, .class, #id"
           value={selector}
           onChange={(e) => setSelector(e.target.value)}
         />
