@@ -107,7 +107,7 @@ export default function OutputPanel({ result }) {
 
       try { //Pemanggilan API Backend
         // PANGGIL ENDPOINT 1: scrape
-        const responScrape = await fetch("http://localhost:3000/api/scrape", {
+        const responScrape = await fetch("http://70.153.137.94:3000/api/scrape", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -127,7 +127,7 @@ export default function OutputPanel({ result }) {
         setMaxDepth(dataScrape.maxDepth);
 
         // PANGGIL ENDPOINT 2: search
-        const responCari = await fetch("http://localhost:3000/api/search", {
+        const responCari = await fetch("http://70.153.137.94:3000/api/search", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
