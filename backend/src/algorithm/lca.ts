@@ -1,5 +1,5 @@
 import { performance } from "node:perf_hooks";
-import type { DOMNode } from "./types/dom";
+import type { DOMNode } from "../types/dom.js";
 
 export type LcaNodeSummary = {
   readonly id: string;
