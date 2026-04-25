@@ -196,15 +196,22 @@ function tokenize(selector: string): Token[] {
       tokens.push({ type: "pseudo", value: name, position: start });
       continue;
     }
-
-    if (c !== undefined && (/[a-zA-Z]/.test(c) || c === "*")) {
+    if (c === "*") {
+      tokens.push({ type: "tag", value: "*", position: start });
+      i++;
+      continue;
+    }
+    if (c !== undefined && /[a-zA-Z]/.test(c)) {
       let tag = "";
+
       while (i < selector.length) {
         const ch = selector[i];
-        if (ch === undefined || (!isIdentChar(ch) && ch !== "*")) break;
+        if (ch === undefined || !isIdentChar(ch)) break;
+
         tag += ch;
         i++;
       }
+
       tokens.push({ type: "tag", value: tag, position: start });
       continue;
     }
@@ -274,9 +281,20 @@ function parseTokens(tokens: readonly Token[], selector: string): SelectorList {
         c.tag = t.value;
         break;
       }
-      case "id":
-        ensureCompound().id = t.value;
+      case "id": {
+        const c = ensureCompound();
+
+        if (c.id !== undefined) {
+          throw new SelectorError(
+            "Multiple ID selectors in one compound are not supported",
+            selector,
+            t.position
+          );
+        }
+
+        c.id = t.value;
         break;
+      }
       case "class":
         ensureCompound().classes.push(t.value);
         break;
@@ -320,20 +338,48 @@ function parseAttribute(
   position: number
 ): AttrMatcher {
   const eqIdx = content.indexOf("=");
+
   if (eqIdx === -1) {
     const name = content.trim();
-    if (!name) throw new SelectorError("Empty attribute name", selector, position);
+
+    if (!name) {
+      throw new SelectorError("Empty attribute name", selector, position);
+    }
+
     return { name };
   }
+
   const name = content.substring(0, eqIdx).trim();
   let value = content.substring(eqIdx + 1).trim();
-  if (
-    (value.startsWith('"') && value.endsWith('"')) ||
-    (value.startsWith("'") && value.endsWith("'"))
-  ) {
-    value = value.substring(1, value.length - 1);
+
+  if (!name) {
+    throw new SelectorError("Empty attribute name", selector, position);
   }
-  if (!name) throw new SelectorError("Empty attribute name", selector, position);
+
+  if (!value) {
+    throw new SelectorError("Empty attribute value", selector, position);
+  }
+
+  const firstChar = value[0];
+  const lastChar = value[value.length - 1];
+
+  if (firstChar === '"' || firstChar === "'") {
+    if (value.length < 2 || lastChar !== firstChar) {
+      throw new SelectorError(
+        "Unclosed attribute value quote",
+        selector,
+        position
+      );
+    }
+
+    value = value.substring(1, value.length - 1);
+  } else if (lastChar === '"' || lastChar === "'") {
+    throw new SelectorError(
+      "Mismatched attribute value quote",
+      selector,
+      position
+    );
+  }
   return { name, value };
 }
 
